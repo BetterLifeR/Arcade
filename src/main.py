@@ -1,4 +1,4 @@
-import os
+import os, sys
 import subprocess
 import tkinter as tk
 
@@ -63,6 +63,7 @@ class Window(tk.Tk):
         """
 
         c_dir = os.getcwd()
+        print(c_dir)
         if os.path.exists(f'{c_dir}/{game}'):
             self.wm_state('iconic')
 
@@ -78,8 +79,9 @@ class Window(tk.Tk):
 
 
 if __name__ == '__main__':
-    CALL_TYPE = 'PYTHON'
-    path      = os.path.dirname(os.path.abspath(__file__))
-    os.chdir(path)
+    path = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(path) 
 
+    if not sys.argv[0].endswith('main.exe'):
+        CALL_TYPE = 'PYTHON'
     app = Window()
