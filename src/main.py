@@ -3,6 +3,9 @@ import subprocess
 import tkinter as tk
 
 
+CALL_TYPE = 'EXE'
+
+
 class SelectWindow(tk.Frame):
     def __init__(self, parent, app):
         super().__init__(parent)
@@ -59,9 +62,14 @@ class Window(tk.Tk):
             :param game: The name of the python file for the game
         """
 
-        if os.path.exists(f'.\\{game}\\{game}.exe'):
+        c_dir = os.getcwd()
+        if os.path.exists(f'{c_dir}/{game}'):
             self.wm_state('iconic')
-            subprocess.call([f'.\\{game}\\{game}.exe'])
+
+            if CALL_TYPE == 'EXE':
+                subprocess.call([f'{c_dir}/{game}/{game}.exe'])
+            else:
+                os.system(f'python "{c_dir}/{game}/{game}.py"')
         else:
             raise Exception('Unimplemented game')
         
@@ -70,5 +78,8 @@ class Window(tk.Tk):
 
 
 if __name__ == '__main__':
-    app = Window()
+    CALL_TYPE = 'PYTHON'
+    path      = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(path)
 
+    app = Window()
